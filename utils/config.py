@@ -1,34 +1,14 @@
 """
-Load configuration from environment variables.
+Load .env into the environment at import time.
 
-Priority order (highest → lowest):
-  1. Values already set in the shell environment
-  2. .env file in the project root
+litellm reads API keys directly from environment variables
+(OPENAI_API_KEY, AWS_ACCESS_KEY_ID, GOOGLE_API_KEY, etc.),
+so this module just ensures .env is loaded before any litellm call.
 """
 
-from __future__ import annotations
-
-import os
 from pathlib import Path
 
 from dotenv import load_dotenv
 
-# Walk up from this file's location to find the project root (.env lives there).
 _PROJECT_ROOT = Path(__file__).parent.parent
 load_dotenv(_PROJECT_ROOT / ".env", override=False)
-
-
-def require(key: str) -> str:
-    """Return the value of *key* or raise a clear error if it is missing."""
-    value = os.getenv(key)
-    if not value:
-        raise EnvironmentError(
-            f"Required environment variable '{key}' is not set.\n"
-            f"Copy .env.example → .env and fill in your credentials."
-        )
-    return value
-
-
-def get(key: str, default: str | None = None) -> str | None:
-    """Return the value of *key*, or *default* if it is not set."""
-    return os.getenv(key, default)
