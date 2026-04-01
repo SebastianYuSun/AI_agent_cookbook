@@ -1,14 +1,10 @@
 """
-utils — LLM provider adapters for AI Agent Cookbook.
+utils — shared helpers for AI Agent Cookbook.
 
 Quick start:
-    from utils.openai_client import OpenAIAdapter
-    from utils.aws_claude import AWSClaudeAdapter
-    from utils.google_cloud import GoogleCloudAdapter
+    from utils.llm import chat, complete
 """
 
-from utils.aws_claude import AWSClaudeAdapter
-from utils.google_cloud import GoogleCloudAdapter
-from utils.openai_client import OpenAIAdapter
+from utils.llm import chat, complete
 
-__all__ = ["OpenAIAdapter", "AWSClaudeAdapter", "GoogleCloudAdapter"]
+__all__ = ["chat", "complete"]

@@ -1,4 +1,4 @@
-.PHONY: setup test lint fmt clean
+.PHONY: setup test test-integration lint fmt clean
 
 ## Create virtual env and install all dependencies
 setup:
@@ -8,9 +8,13 @@ setup:
 	cp -n .env.example .env || true
 	@echo "\n✓ Setup complete. Edit .env with your API keys, then: source .venv/bin/activate"
 
-## Run the full test suite with coverage
+## Run unit tests with coverage (no real API keys needed)
 test:
-	pytest tests/ -v --cov=utils --cov-report=term-missing --cov-fail-under=80
+	pytest tests/ --ignore=tests/integration -v --cov=utils --cov-report=term-missing --cov-fail-under=80
+
+## Run integration tests against real APIs (requires .env with valid keys)
+test-integration:
+	pytest tests/integration/ -v -s
 
 ## Lint with ruff
 lint:

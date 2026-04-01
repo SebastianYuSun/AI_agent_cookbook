@@ -31,7 +31,7 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          pytest tests/ -v \
+          pytest tests/ --ignore=tests/integration -v \
             --cov=utils \
             --cov-report=term-missing \
             --cov-fail-under=80
