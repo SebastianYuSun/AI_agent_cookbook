@@ -21,7 +21,7 @@ class TestOpenAI:
 
 class TestAWSBedrock:
     def test_chat(self):
-        result = chat("bedrock/anthropic.claude-opus-4-6-v1", PING)
+        result = chat("bedrock/us.anthropic.claude-opus-4-6-v1:0", PING)
         assert isinstance(result, str) and len(result) > 0
 
 
