@@ -8,30 +8,28 @@ These are intentionally excluded from CI. They verify that your API keys are
 configured correctly and that the providers are reachable.
 """
 
-import pytest
 from utils.llm import chat, complete
 
-# A prompt designed to produce a short, deterministic-ish response.
-PING = [{"role": "user", "content": "Reply with exactly one word: hello"}]
+PING = [{"role": "user", "content": "Say hi"}]
 
 
 class TestOpenAI:
     def test_chat(self):
-        result = chat("gpt-4o", PING)
+        result = chat("gpt-5.4", PING)
         assert isinstance(result, str) and len(result) > 0
 
     def test_complete(self):
-        result = complete("gpt-4o", "Reply with exactly one word: hello")
+        result = complete("gpt-5.4", "Say hi")
         assert isinstance(result, str) and len(result) > 0
 
 
 class TestAWSBedrock:
     def test_chat(self):
-        result = chat("bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0", PING)
+        result = chat("bedrock/anthropic.claude-opus-4-6-v1", PING)
         assert isinstance(result, str) and len(result) > 0
 
 
 class TestGoogleGemini:
     def test_chat(self):
-        result = chat("gemini/gemini-2.0-flash", PING)
+        result = chat("gemini/gemini-3.1-flash-lite-preview", PING)
         assert isinstance(result, str) and len(result) > 0

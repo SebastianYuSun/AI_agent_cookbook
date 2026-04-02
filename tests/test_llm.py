@@ -26,11 +26,11 @@ class TestChat(unittest.TestCase):
     @patch("utils.llm.litellm.completion")
     def test_returns_content(self, mock_completion):
         """chat() should return the first choice's message content."""
-        mock_completion.return_value = _mock_response("Paris")
+        mock_completion.return_value = _mock_response("hi")
         from utils.llm import chat
 
-        result = chat("gpt-4o", [{"role": "user", "content": "Capital of France?"}])
-        self.assertEqual(result, "Paris")
+        result = chat("gpt-5.4", [{"role": "user", "content": "hi"}])
+        self.assertEqual(result, "hi")
 
     @patch("utils.llm.litellm.completion")
     def test_passes_model_and_messages(self, mock_completion):
@@ -39,10 +39,10 @@ class TestChat(unittest.TestCase):
         from utils.llm import chat
 
         messages = [{"role": "user", "content": "hi"}]
-        chat("gemini/gemini-2.0-flash", messages)
+        chat("gemini/gemini-3.1-flash-lite-preview", messages)
 
         mock_completion.assert_called_once_with(
-            model="gemini/gemini-2.0-flash",
+            model="gemini/gemini-3.1-flash-lite-preview",
             messages=messages,
         )
 
@@ -52,34 +52,34 @@ class TestChat(unittest.TestCase):
         mock_completion.return_value = _mock_response("ok")
         from utils.llm import chat
 
-        chat("gpt-4o", [{"role": "user", "content": "hi"}], temperature=0.0, max_tokens=10)
+        chat("bedrock/anthropic.claude-opus-4-6-v1", [{"role": "user", "content": "hi"}], temperature=0.0, max_tokens=5)
 
         _, call_kwargs = mock_completion.call_args
         self.assertEqual(call_kwargs["temperature"], 0.0)
-        self.assertEqual(call_kwargs["max_tokens"], 10)
+        self.assertEqual(call_kwargs["max_tokens"], 5)
 
 
 class TestComplete(unittest.TestCase):
     @patch("utils.llm.litellm.completion")
     def test_wraps_prompt_as_user_message(self, mock_completion):
         """complete() should wrap the prompt in a user message."""
-        mock_completion.return_value = _mock_response("42")
+        mock_completion.return_value = _mock_response("ok")
         from utils.llm import complete
 
-        complete("gpt-4o", "What is 6x7?")
+        complete("gpt-5.4", "hi")
 
         _, call_kwargs = mock_completion.call_args
         self.assertEqual(call_kwargs["messages"][0]["role"], "user")
-        self.assertIn("6x7", call_kwargs["messages"][0]["content"])
+        self.assertEqual(call_kwargs["messages"][0]["content"], "hi")
 
     @patch("utils.llm.litellm.completion")
     def test_returns_content(self, mock_completion):
         """complete() should return the reply text."""
-        mock_completion.return_value = _mock_response("42")
+        mock_completion.return_value = _mock_response("ok")
         from utils.llm import complete
 
-        result = complete("gpt-4o", "What is 6x7?")
-        self.assertEqual(result, "42")
+        result = complete("gpt-5.4", "hi")
+        self.assertEqual(result, "ok")
 
 
 if __name__ == "__main__":
