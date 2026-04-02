@@ -18,10 +18,6 @@ class TestOpenAI:
         result = chat("gpt-5.4", PING)
         assert isinstance(result, str) and len(result) > 0
 
-    def test_complete(self):
-        result = complete("gpt-5.4", "Say hi")
-        assert isinstance(result, str) and len(result) > 0
-
 
 class TestAWSBedrock:
     def test_chat(self):
@@ -32,4 +28,11 @@ class TestAWSBedrock:
 class TestGoogleGemini:
     def test_chat(self):
         result = chat("gemini/gemini-3.1-pro-preview", PING)
+        assert isinstance(result, str) and len(result) > 0
+
+
+class TestComplete:
+    def test_complete(self):
+        """complete() wraps chat() — only needs to be verified once."""
+        result = complete("gpt-5.4", "Say hi")
         assert isinstance(result, str) and len(result) > 0
