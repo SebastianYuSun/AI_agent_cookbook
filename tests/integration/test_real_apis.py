@@ -31,5 +31,5 @@ class TestAWSBedrock:
 
 class TestGoogleGemini:
     def test_chat(self):
-        result = chat("gemini/gemini-3.1-flash-lite-preview", PING)
+        result = chat("gemini/gemini-3.1-pro-preview", PING)
         assert isinstance(result, str) and len(result) > 0

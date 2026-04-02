@@ -39,10 +39,10 @@ class TestChat(unittest.TestCase):
         from utils.llm import chat
 
         messages = [{"role": "user", "content": "hi"}]
-        chat("gemini/gemini-3.1-flash-lite-preview", messages)
+        chat("gemini/gemini-3.1-pro-preview", messages)
 
         mock_completion.assert_called_once_with(
-            model="gemini/gemini-3.1-flash-lite-preview",
+            model="gemini/gemini-3.1-pro-preview",
             messages=messages,
         )
 
